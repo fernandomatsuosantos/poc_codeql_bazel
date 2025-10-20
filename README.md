@@ -1,7 +1,6 @@
 # GitHub Advanced Security (GHAS) Proof of Concept Demonstrations
 
-This repository contains demonstration materials for GitHub Advanced Security (GHAS) Proof of Concept (PoC) evaluations conducted with GitHub. 
-It includes three sample projects within the `projects` folder, all of which can be built using Bazel.
+This repository contains demonstration materials for GitHub Advanced Security (GHAS) Proof of Concept (PoC) evaluations.
 
 ## Projects Overview
 
