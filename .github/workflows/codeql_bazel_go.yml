@@ -1,0 +1,50 @@
+name: "CodeQL Bazel Go Default"
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  # schedule:
+  #   - cron: '18 5 * * 3'
+
+jobs:
+  analyze:
+    runs-on: 'ubuntu-latest'
+    permissions:
+      security-events: write  # Allow writing security events
+      actions: read           # Allow reading actions
+      contents: read          # Allow reading repository contents
+     
+    steps:
+      # Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Initialize CodeQL to scan non buildable languages
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: go
+          build-mode: manual
+
+      # Build the code using Bazel
+      - name: Build the code using Bazel
+        run: |
+          # Install Bazel
+          BAZEL_RELEASE=v1.25.0
+          wget -q https://github.com/bazelbuild/bazelisk/releases/download/$BAZEL_RELEASE/bazelisk-linux-amd64
+          sudo chmod +x bazelisk-linux-amd64
+          sudo mv bazelisk-linux-amd64 /usr/local/bin/bazel
+          which bazel
+          # Build the code using Bazel
+          bazel clean --expunge
+          bazel build //projects/go_web --spawn_strategy=local --nouse_action_cache --noremote_accept_cached --noremote_upload_local_results --disk_cache= --remote_cache=
+          bazel shutdown
+
+      # Run CodeQL analysis
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:go"
