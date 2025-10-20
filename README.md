@@ -30,6 +30,6 @@ To execute the projects, use the following commands:
   bazel run //projects/go_web:go_web --verbose_failures
   ```
 
-## Our conclusion
+## Conclusion
 
 For Go, CodeQL does not support builds with Bazel. Bazel does not utilize the standard Go build tooling (i.e., `go build`). Due to this discrepancy, adding support for Bazel-built Go projects is non-trivial. GitHub may consider it in the future, though there are no current plans. This issue is documented at: [GitHub Issue #17458](https://github.com/github/codeql/issues/17458).
